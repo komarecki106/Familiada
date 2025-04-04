@@ -253,16 +253,20 @@ class TVPanel(tk.Toplevel):
 
     def show_big_x(self, team):
         """
-        Wyświetla duże czerwone "X" dla danej drużyny z opóźnieniem oraz odtwarza dźwięk błędu.
+        Wyświetla duże czerwone "X" dla danej drużyny, odtwarza dźwięk błędu,
+        a samo "X" znika po upływie 2 sekund.
         """
+        display_time = 2000
         if team == 'left':
             self.left_big_x.place(relx=0.5, rely=0.5, anchor="center")
-            self.after(2000, lambda: (self.left_big_x.place_forget(),
-                                      self.sound_manager.play("error") if self.sound_manager else None))
+            if self.sound_manager:
+                self.sound_manager.play("error")
+            self.after(display_time, lambda: self.left_big_x.place_forget())
         elif team == 'right':
             self.right_big_x.place(relx=0.5, rely=0.5, anchor="center")
-            self.after(2000, lambda: (self.right_big_x.place_forget(),
-                                      self.sound_manager.play("error") if self.sound_manager else None))
+            if self.sound_manager:
+                self.sound_manager.play("error")
+            self.after(display_time, lambda: self.right_big_x.place_forget())
 
     def reset_screen(self):
         """Resetuje ekran centralny i wyświetla nazwy drużyn."""

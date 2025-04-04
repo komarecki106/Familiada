@@ -12,7 +12,23 @@ class AdminPanel(tk.Frame):
         tv_panel (TVPanel): Panel wyświetlający informacje na ekranie.
         sound_manager (SoundManager): Obiekt do obsługi dźwięków.
     """
-    def __init__(self, master, game, tv_panel, sound_manager):
+    def __init__(self, master, game, tv_panel, sound_manager, theme=None):
+        # Automatyczne wykrywanie motywu systemowego przy użyciu darkdetect, jeśli theme nie jest podany
+        try:
+            import darkdetect
+            if theme is None:
+                theme = "dark" if darkdetect.isDark() else "light"
+        except ImportError:
+            if theme is None:
+                theme = "light"
+        self.theme = theme
+        if theme == "dark":
+            self.team1_color = "#E57373"
+            self.team2_color = "#64B5F6"
+        else:
+            self.team1_color = "red"
+            self.team2_color = "blue"
+        
         super().__init__(master)
         self.game = game
         self.tv_panel = tv_panel
@@ -23,9 +39,9 @@ class AdminPanel(tk.Frame):
         # Pasek z nazwami drużyn i wynikami
         header_frame = tk.Frame(self)
         header_frame.pack(side="top", fill="x", pady=5)
-        self.team1_label = tk.Label(header_frame, text=self.game.team1_name, font=("Arial", 20, "bold"), fg="yellow")
+        self.team1_label = tk.Label(header_frame, text=self.game.team1_name, font=("Arial", 20, "bold"), fg=self.team1_color)
         self.team1_label.pack(side="left", padx=20)
-        self.team2_label = tk.Label(header_frame, text=self.game.team2_name, font=("Arial", 20, "bold"), fg="yellow")
+        self.team2_label = tk.Label(header_frame, text=self.game.team2_name, font=("Arial", 20, "bold"), fg=self.team2_color)
         self.team2_label.pack(side="right", padx=20)
 
         # Lewy panel – przyciski sterujące i lista pytań
@@ -85,8 +101,8 @@ class AdminPanel(tk.Frame):
         if new_right:
             self.game.team2_name = new_right
         self.tv_panel.update_score_labels()
-        self.team1_label.config(text=f"{self.game.team1_name}: {self.game.team1_score}")
-        self.team2_label.config(text=f"{self.game.team2_name}: {self.game.team2_score}")
+        self.team1_label.config(text=f"{self.game.team1_name}: {self.game.team1_score}", fg=self.team1_color)
+        self.team2_label.config(text=f"{self.game.team2_name}: {self.game.team2_score}", fg=self.team2_color)
         self.update_question_controls()
 
     def update_question_listbox(self):
