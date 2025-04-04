@@ -23,9 +23,9 @@ class AdminPanel(tk.Frame):
         # Pasek z nazwami drużyn i wynikami
         header_frame = tk.Frame(self)
         header_frame.pack(side="top", fill="x", pady=5)
-        self.team1_label = tk.Label(header_frame, text=self.game.team1_name, font=("Arial", 20, "bold"), fg="yellow")
+        self.team1_label = tk.Label(header_frame, text=self.game.team1_name, font=("Arial", 20, "bold"), fg="blue")
         self.team1_label.pack(side="left", padx=20)
-        self.team2_label = tk.Label(header_frame, text=self.game.team2_name, font=("Arial", 20, "bold"), fg="yellow")
+        self.team2_label = tk.Label(header_frame, text=self.game.team2_name, font=("Arial", 20, "bold"), fg="red")
         self.team2_label.pack(side="right", padx=20)
 
         # Lewy panel – przyciski sterujące i lista pytań

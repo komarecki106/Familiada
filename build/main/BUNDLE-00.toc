@@ -1,1 +1,0 @@
-([('main', '/Users/komar/Projects/familiada/dist/main', 'EXECUTABLE')],)
